@@ -29,13 +29,15 @@ const Login = () => {
     e.preventDefault()
     try {
       const res = await fetch(
-        'https://localhost:7048/User/userlogin?username=' +
+        'api/User/userlogin?username=' +
           credentials.username +
           '&password=' +
           credentials.password,
       )
       const data = await res.json()
       if (data.status != 400) {
+        const idUser = data.data.id;
+        sessionStorage.setItem('idUser', idUser);
         toast.success('Đăng nhập thành công', { autoClose: 500, theme: 'colored' })
         navigate('/dashboard')
       } else {
@@ -44,7 +46,7 @@ const Login = () => {
       // navigate('/home')
     } catch (error) {
       console.log(error)
-      toast.error('All fields are required', { autoClose: 500, theme: 'colored' })
+      toast.error('Lỗi kết nối', { autoClose: 500, theme: 'colored' })
     }
   }
 
@@ -68,6 +70,7 @@ const Login = () => {
                         autoComplete="username"
                         name="username"
                         onChange={handleOnChange}
+                        required
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
@@ -80,6 +83,7 @@ const Login = () => {
                         autoComplete="current-password"
                         name="password"
                         onChange={handleOnChange}
+                        required
                       />
                     </CInputGroup>
                     <CRow>

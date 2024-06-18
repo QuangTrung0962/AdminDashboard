@@ -1,4 +1,9 @@
 import React from 'react'
+import YoutubeAccounts from './views/listAccount/YoutubeAccounts'
+import FacebookAccounts from './views/listAccount/FacebookAccounts'
+import TikTokAccounts from './views/listAccount/TikTokAccounts'
+import ClientAccounts from './views/listAccount/ClientAccounts'
+import ActionHistory from './views/listAccount/ActionHistory'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -97,6 +102,12 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
+  //
+  { path: '/youtube-accounts', name: 'Accounts', element: YoutubeAccounts },
+  { path: '/facebook-accounts', name: 'Accounts', element: FacebookAccounts },
+  { path: '/tiktok-accounts', name: 'Accounts', element: TikTokAccounts },
+  { path: '/client-accounts', name: 'Accounts', element: ClientAccounts },
+  { path: '/action-history', name: 'Accounts', element: ActionHistory },
 ]
 
 export default routes
