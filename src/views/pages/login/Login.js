@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -15,8 +15,39 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import { toast } from 'react-toastify'
 
 const Login = () => {
+  const navigate = useNavigate()
+  const [credentials, setCredentials] = useState({ username: '', password: '' })
+  const [account, setAccount] = useState()
+  const handleOnChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await fetch(
+        'https://localhost:7048/User/userlogin?username=' +
+          credentials.username +
+          '&password=' +
+          credentials.password,
+      )
+      const data = await res.json()
+      if (data.status != 400) {
+        toast.success('Đăng nhập thành công', { autoClose: 500, theme: 'colored' })
+        navigate('/dashboard')
+      } else {
+        toast.error('Đăng nhập thất bại', { autoClose: 500, theme: 'colored' })
+      }
+      // navigate('/home')
+    } catch (error) {
+      console.log(error)
+      toast.error('All fields are required', { autoClose: 500, theme: 'colored' })
+    }
+  }
+
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -25,14 +56,19 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
-                    <h1>Login</h1>
-                    <p className="text-body-secondary">Sign In to your account</p>
+                  <CForm onSubmit={handleSubmit}>
+                    <h1>Đăng nhập</h1>
+                    <p className="text-body-secondary">Đăng nhập vào tài khoản của bạn</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput
+                        placeholder="Tài khoản"
+                        autoComplete="username"
+                        name="username"
+                        onChange={handleOnChange}
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -40,19 +76,27 @@ const Login = () => {
                       </CInputGroupText>
                       <CFormInput
                         type="password"
-                        placeholder="Password"
+                        placeholder="Mật khẩu"
                         autoComplete="current-password"
+                        name="password"
+                        onChange={handleOnChange}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
-                          Login
+                        <CButton type="submit" color="primary" className="px-4">
+                          Đăng nhập
                         </CButton>
                       </CCol>
                       <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
+                        <CButton
+                          color="link"
+                          className="px-0"
+                          onClick={() => {
+                            navigate('/forgot-password')
+                          }}
+                        >
+                          Quên mật khẩu?
                         </CButton>
                       </CCol>
                     </CRow>
@@ -62,7 +106,7 @@ const Login = () => {
               <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
                 <CCardBody className="text-center">
                   <div>
-                    <h2>Sign up</h2>
+                    {/* <h2>Sign up</h2>
                     <p>
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                       tempor incididunt ut labore et dolore magna aliqua.
@@ -71,7 +115,7 @@ const Login = () => {
                       <CButton color="primary" className="mt-3" active tabIndex={-1}>
                         Register Now!
                       </CButton>
-                    </Link>
+                    </Link> */}
                   </div>
                 </CCardBody>
               </CCard>

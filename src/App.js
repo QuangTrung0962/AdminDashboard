@@ -3,7 +3,11 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { CSpinner, useColorModes } from '@coreui/react'
+import { Flip, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './scss/style.scss'
+import ForgotPassword from './views/pages/login/ForgotPassword'
+import ChangePassword from './views/pages/login/ChangePassword'
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
@@ -34,6 +38,7 @@ const App = () => {
 
   return (
     <HashRouter>
+      <ToastContainer toastClassName="toastContainerBox" transition={Flip} position="top-center" />
       <Suspense
         fallback={
           <div className="pt-3 text-center">
@@ -42,8 +47,11 @@ const App = () => {
         }
       >
         <Routes>
-          <Route exact path="/login" name="Login Page" element={<Login />} />
+          <Route path="/" name="Login" element={<Login />} />
+          {/* <Route exact path="/login" name="Login Page" element={<Login />} /> */}
           <Route exact path="/register" name="Register Page" element={<Register />} />
+          <Route exact path="/forgot-password" name="Register Page" element={<ForgotPassword />} />
+          <Route exact path="/change-password:id" name="Register Page" element={<ChangePassword />} />
           <Route exact path="/404" name="Page 404" element={<Page404 />} />
           <Route exact path="/500" name="Page 500" element={<Page500 />} />
           <Route path="*" name="Home" element={<DefaultLayout />} />
