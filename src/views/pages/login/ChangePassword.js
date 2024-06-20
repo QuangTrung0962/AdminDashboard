@@ -14,11 +14,16 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const ChangePassword = () => {
-    const navigate = useNavigate()
-  const [credentials, setCredentials] = useState({ username: '', password: '', confirmPassword: '' })
-  const { id } = useParams();
+  const navigate = useNavigate()
+  const [credentials, setCredentials] = useState({
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  })
+  const token = sessionStorage.getItem('token')
 
   const handleOnChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -26,26 +31,27 @@ const ChangePassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-        const request = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idUser: id.toString(), currentPassword: credentials.password })
-        };
-      const res = await fetch(
-        'https://localhost:7048/User/check-license?username=' +
-          credentials.username +
-          '&license=' +
-          credentials.license,
-      )
+      const request = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json-patch+json' },
+        body: JSON.stringify({
+          token: token,
+          currentPassword: credentials.oldPassword,
+          newPassword: credentials.newPassword,
+          confirmPassword: credentials.confirmPassword,
+        }),
+      }
+
+      const res = await fetch('api/User/change-password', request)
       const data = await res.json()
-      if (data.status != 400) {
-        navigate('/home')
+      if (data.isSuccessful) {
+        toast.success('Đổi mật khẩu thành công', { autoClose: 500, theme: 'colored' })
+        navigate('/dashboard')
       } else {
         toast.error('Xảy ra lỗi', { autoClose: 500, theme: 'colored' })
       }
-     
     } catch (error) {
-    //   console.log(error)
+      //   console.log(error)
       toast.error('Lỗi', { autoClose: 500, theme: 'colored' })
     }
   }
@@ -62,9 +68,15 @@ const ChangePassword = () => {
                   <p className="text-body-secondary">Thay đổi mật khẩu</p>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
-                      <CIcon icon={cilUser} />
+                      <CIcon icon={cilLockLocked} />
                     </CInputGroupText>
-                    <CFormInput placeholder="Tên tài khoản" autoComplete="username" name='username' onChange={handleOnChange} />
+                    <CFormInput
+                      type="password"
+                      placeholder="Mật khẩu cũ"
+                      autoComplete="old-password"
+                      name="oldPassword"
+                      onChange={handleOnChange}
+                    />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
@@ -74,7 +86,7 @@ const ChangePassword = () => {
                       type="text"
                       placeholder="Mật khẩu mới"
                       autoComplete="new-password"
-                      name="password"
+                      name="newPassword"
                       onChange={handleOnChange}
                     />
                   </CInputGroup>
@@ -85,13 +97,15 @@ const ChangePassword = () => {
                     <CFormInput
                       type="password"
                       placeholder="Nhập lại mật khẩu"
-                      autoComplete="new-password"
+                      autoComplete="confirm-password"
                       name="confirmPassword"
                       onChange={handleOnChange}
                     />
                   </CInputGroup>
                   <div className="d-grid">
-                    <CButton type='submit' color="success">Đổi mật khẩu</CButton>
+                    <CButton type="submit" color="success">
+                      Đổi mật khẩu
+                    </CButton>
                   </div>
                 </CForm>
               </CCardBody>

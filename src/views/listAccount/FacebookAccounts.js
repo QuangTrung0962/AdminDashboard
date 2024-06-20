@@ -18,8 +18,8 @@ const FacebookAccounts = () => {
   const [accounts, setAccounts] = useState([])
 
   const fetchData = async () => {
-    const id = sessionStorage.getItem('idUser')
-    await fetch(`api/User/list-accountFb?idUser=${id}`)
+    const token = sessionStorage.getItem('token')
+    await fetch(`api/User/list-accountFb?token=${token}`)
       .then((res) => res.json())
       .then((data) => {
         setAccounts(data.data)

@@ -56,6 +56,8 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
+//
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -103,11 +105,11 @@ const routes = [
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
   //
-  { path: '/youtube-accounts', name: 'Accounts', element: YoutubeAccounts },
-  { path: '/facebook-accounts', name: 'Accounts', element: FacebookAccounts },
-  { path: '/tiktok-accounts', name: 'Accounts', element: TikTokAccounts },
-  { path: '/client-accounts', name: 'Accounts', element: ClientAccounts },
-  { path: '/action-history', name: 'Accounts', element: ActionHistory },
+  { path: '/youtube-accounts', name: 'Tài khoản Youtube', element: YoutubeAccounts },
+  { path: '/facebook-accounts', name: 'Tài khoản Facebook', element: FacebookAccounts },
+  { path: '/tiktok-accounts', name: 'Tài khoản TikTok', element: TikTokAccounts },
+  { path: '/client-accounts', name: 'Tài khoản khách hàng', element: ClientAccounts },
+  { path: '/action-history', name: 'Lịch sử', element: ActionHistory },
 ]
 
 export default routes

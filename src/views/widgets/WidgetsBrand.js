@@ -2,7 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { CWidgetStatsD, CRow, CCol } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cibFacebook, cibLinkedin, cibTwitter, cilCalendar } from '@coreui/icons'
+import {
+  cibFacebook,
+  cibLinkedin,
+  cibTiktok,
+  cibTwitter,
+  cibYoutube,
+  cilCalendar,
+} from '@coreui/icons'
 import { CChart } from '@coreui/react-chartjs'
 
 const WidgetsBrand = (props) => {
@@ -94,7 +101,7 @@ const WidgetsBrand = (props) => {
               />
             ),
           })}
-          icon={<CIcon icon={cibTwitter} height={52} className="my-4 text-white" />}
+          icon={<CIcon icon={cibTiktok} height={52} className="my-4 text-white" />}
           values={[
             { title: 'followers', value: '973k' },
             { title: 'tweets', value: '1.792' },
@@ -128,7 +135,7 @@ const WidgetsBrand = (props) => {
               />
             ),
           })}
-          icon={<CIcon icon={cibLinkedin} height={52} className="my-4 text-white" />}
+          icon={<CIcon icon={cibYoutube} height={52} className="my-4 text-white" />}
           values={[
             { title: 'contacts', value: '500' },
             { title: 'feeds', value: '1.292' },

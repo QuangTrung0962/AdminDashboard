@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
+  CContainer,
+  CFormSelect,
+  CListGroup,
   CRow,
   CTable,
   CTableBody,
@@ -13,27 +16,46 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import MuiDateRangePicker from '../../components/MuiDateRangePicker'
-
+import DateRangPicker from '../../components/datetime/DatetRangePicker'
+import { ContextFunction } from '../../context/Context'
 
 const ActionHistory = () => {
   const [accounts, setAccounts] = useState([])
- 
+  const [listAccounts, setListAccounts] = useState({ id: '', fbUser: '' })
+  const { fillter, setFillter } = useContext(ContextFunction)
+  const token = sessionStorage.getItem('Token')
+
   const fetchData = async () => {
-    const id = sessionStorage.getItem('idUser')
-    await fetch(`api/Action/history?IdUser=${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setAccounts(data.data)
-      })
+    try {
+      const res = await fetch(`api/Action/history?Token=${token}`)
+      const data = await res.json()
+
+      setAccounts(data.data)
+
+      const accountsList = data.data.map((element) => element)
+      setListAccounts(accountsList)
+      console.log(accountsList)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
   }
 
   useEffect(() => {
     fetchData()
   }, [])
+
+  useEffect(() => {
+    if (fillter != null) {
+      setAccounts(fillter)
+    } else {
+      fetchData()
+    }
+  }, [fillter])
+
   return (
-    <div className="row">
-       <MuiDateRangePicker />
+    <CContainer>
+      <DateRangPicker />
+
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
@@ -55,26 +77,24 @@ const ActionHistory = () => {
                 </CTableHead>
                 <CTableBody>
                   {accounts &&
-                    accounts.map((account, index) =>
-                      account.actionName.map((action, actionIndex) => (
-                        <CTableRow key={actionIndex}>
-                          <CTableHeaderCell scope="row">{actionIndex + 1}</CTableHeaderCell>
-                          <CTableDataCell>{account.fbUser}</CTableDataCell>
-                          <CTableDataCell>{action}</CTableDataCell>
-                          <CTableDataCell>{account.startTime[actionIndex]}</CTableDataCell>
-                          <CTableDataCell>{account.excuteTime[actionIndex]}</CTableDataCell>
-                          <CTableDataCell>{account.result.toString()}</CTableDataCell>
-                          <CTableDataCell>{account.description.toString()}</CTableDataCell>
-                        </CTableRow>
-                      )),
-                    )}
+                    accounts.map((account, index) => (
+                      <CTableRow key={index}>
+                        <CTableHeaderCell scope="row">{index + 1}</CTableHeaderCell>
+                        <CTableDataCell>{account.nameFb}</CTableDataCell>
+                        <CTableDataCell>{account.action}</CTableDataCell>
+                        <CTableDataCell>{account.startTime}</CTableDataCell>
+                        <CTableDataCell>{account.endTime}</CTableDataCell>
+                        <CTableDataCell>{account.result.toString()}</CTableDataCell>
+                        <CTableDataCell>{account.resultDetail}</CTableDataCell>
+                      </CTableRow>
+                    ))}
                 </CTableBody>
               </CTable>
             </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-    </div>
+    </CContainer>
   )
 }
 

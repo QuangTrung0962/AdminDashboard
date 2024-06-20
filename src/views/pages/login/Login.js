@@ -29,15 +29,12 @@ const Login = () => {
     e.preventDefault()
     try {
       const res = await fetch(
-        'api/User/userlogin?username=' +
-          credentials.username +
-          '&password=' +
-          credentials.password,
+        'api/User/userlogin?username=' + credentials.username + '&password=' + credentials.password,
       )
       const data = await res.json()
-      if (data.status != 400) {
-        const idUser = data.data.id;
-        sessionStorage.setItem('idUser', idUser);
+      if (data.isSuccessful) {
+        const token = data.data
+        sessionStorage.setItem('token', token)
         toast.success('Đăng nhập thành công', { autoClose: 500, theme: 'colored' })
         navigate('/dashboard')
       } else {

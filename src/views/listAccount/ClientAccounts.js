@@ -18,8 +18,8 @@ const ClientAccounts = () => {
   const [accounts, setAccounts] = useState([])
 
   const fetchData = async () => {
-    const id = sessionStorage.getItem('idUser')
-    await fetch(`api/User/list-account?idUser=${id}`)
+    const token = sessionStorage.getItem('token')
+    await fetch(`api/User/list-accountClient?token=${token}`)
       .then((res) => res.json())
       .then((data) => {
         setAccounts(data.data)

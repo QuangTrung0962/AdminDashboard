@@ -20,7 +20,7 @@ import { toast } from 'react-toastify'
 const ForgotPassword = () => {
   const navigate = useNavigate()
   const [credentials, setCredentials] = useState({ username: '', license: '' })
-  const [idUser, setIdUser] = useState();
+  const [idUser, setIdUser] = useState()
   const handleOnChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value })
   }
@@ -28,22 +28,22 @@ const ForgotPassword = () => {
     e.preventDefault()
     try {
       const res = await fetch(
-        'https://localhost:7048/User/forgot-password?username=' +
+        'api/User/forgot-password?username=' +
           credentials.username +
           '&license=' +
           credentials.license,
       )
       const data = await res.json()
       if (data.status != 400) {
-        setIdUser(data.data.id);
-        navigate(`/change-password/${idUser}`);
+        setIdUser(data.data.id)
+        navigate(`/change-password/${idUser}`)
       } else {
         toast.error('Tài khoản không tồn tại', { autoClose: 500, theme: 'colored' })
       }
       // navigate('/home')
     } catch (error) {
-    //   console.log(error)
-      toast.error('All fields are required', { autoClose: 500, theme: 'colored' })
+      //   console.log(error)
+      toast.error('Lỗi kết nối', { autoClose: 500, theme: 'colored' })
     }
   }
   return (

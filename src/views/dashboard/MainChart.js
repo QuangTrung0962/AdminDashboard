@@ -34,7 +34,20 @@ const MainChart = () => {
         ref={chartRef}
         style={{ height: '300px', marginTop: '40px' }}
         data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          labels: [
+            'Tháng 1',
+            'Tháng 2',
+            'Tháng 3',
+            'Tháng 4',
+            'Tháng 5',
+            'Tháng 6',
+            'Tháng 7',
+            'Tháng 8',
+            'Tháng 9',
+            'Tháng 10',
+            'Tháng 11',
+            'Tháng 12',
+          ],
           datasets: [
             {
               label: 'My First dataset',
@@ -43,6 +56,11 @@ const MainChart = () => {
               pointHoverBackgroundColor: getStyle('--cui-info'),
               borderWidth: 2,
               data: [
+                random(50, 200),
+                random(50, 200),
+                random(50, 200),
+                random(50, 200),
+                random(50, 200),
                 random(50, 200),
                 random(50, 200),
                 random(50, 200),
@@ -67,6 +85,11 @@ const MainChart = () => {
                 random(50, 200),
                 random(50, 200),
                 random(50, 200),
+                random(50, 200),
+                random(50, 200),
+                random(50, 200),
+                random(50, 200),
+                random(50, 200),
               ],
             },
             {
@@ -76,7 +99,7 @@ const MainChart = () => {
               pointHoverBackgroundColor: getStyle('--cui-danger'),
               borderWidth: 1,
               borderDash: [8, 5],
-              data: [65, 65, 65, 65, 65, 65, 65],
+              data: [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65],
             },
           ],
         }}

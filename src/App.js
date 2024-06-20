@@ -50,11 +50,16 @@ const App = () => {
           <Route path="/" name="Login" element={<Login />} />
           {/* <Route exact path="/login" name="Login Page" element={<Login />} /> */}
           <Route exact path="/register" name="Register Page" element={<Register />} />
-          <Route exact path="/forgot-password" name="Register Page" element={<ForgotPassword />} />
           <Route
             exact
-            path="/change-password:id"
-            name="Register Page"
+            path="/forgot-password"
+            name="Forgot Password Page"
+            element={<ForgotPassword />}
+          />
+          <Route
+            exact
+            path="/change-password"
+            name="Change Password Page"
             element={<ChangePassword />}
           />
           <Route exact path="/404" name="Page 404" element={<Page404 />} />

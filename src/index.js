@@ -6,14 +6,17 @@ import 'core-js'
 import App from './App'
 import store from './store'
 
-// Mui metarial
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import ContextProvider from './context/Context'
+import { vi } from 'date-fns/locale/vi'
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <App />
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={vi}>
+      <ContextProvider>
+        <App />
+      </ContextProvider>
     </LocalizationProvider>
   </Provider>,
 )
