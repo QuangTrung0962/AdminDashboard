@@ -1,1 +1,7 @@
 // Here you can add other styles
+.divider {
+    width: 40px; /* Độ dày của dòng kẻ */
+    height: 1px; /* Chiều cao của dòng kẻ */
+    background-color: black; /* Màu sắc của dòng kẻ */
+    margin: 0 6px; /* Khoảng cách giữa dòng kẻ và các DatePicker */
+  }

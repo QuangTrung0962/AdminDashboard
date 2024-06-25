@@ -16,25 +16,24 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import DateRangPicker from '../../components/datetime/DatetRangePicker'
+import DateRangPicker from '../../components/filter/ActionHistoryFilter'
 import { ContextFunction } from '../../context/Context'
 
 const ActionHistory = () => {
   const [accounts, setAccounts] = useState([])
   const [listAccounts, setListAccounts] = useState({ id: '', fbUser: '' })
   const { fillter, setFillter } = useContext(ContextFunction)
-  const token = sessionStorage.getItem('Token')
+  const token = sessionStorage.getItem('token')
 
   const fetchData = async () => {
     try {
-      const res = await fetch(`api/Action/history?Token=${token}`)
+      const res = await fetch(`api/Action/history?token=${token}`)
       const data = await res.json()
 
       setAccounts(data.data)
 
       const accountsList = data.data.map((element) => element)
       setListAccounts(accountsList)
-      console.log(accountsList)
     } catch (error) {
       console.error('Error fetching data:', error)
     }
@@ -56,7 +55,7 @@ const ActionHistory = () => {
     <CContainer>
       <DateRangPicker />
 
-      <CRow>
+      <CRow className="mt-4">
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
